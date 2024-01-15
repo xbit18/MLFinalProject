@@ -36,16 +36,19 @@ def check_tetromino(current_piece):
     extended_board[paddingX:paddingX + padding.shape[0],
     paddingY:paddingY + padding.shape[1]] = padding
 
-    rows = 0,0
-    cols = 0,0
-    if current_piece == None:
-        rows = 4,25
-        cols = 4,15
-    else:
+    rows = 4, 25
+    cols = 4, 15
 
-        type, rotation, coords = current_piece
-        rows = coords[0], coords[0]+5
-        cols = coords[1]-1, coords[1] + 3
+    # rows = 0,0
+    # cols = 0,0
+    # if current_piece == None:
+    #     rows = 4,25
+    #     cols = 4,15
+    # else:
+    #
+    #     type, rotation, coords = current_piece
+    #     rows = coords[0], coords[0]+5
+    #     cols = coords[1]-1, coords[1] + 3
 
     # Per ogni riga
     for i in range(rows[0], rows[1]):
@@ -107,7 +110,7 @@ def board_recognition(img):
 
 
             # Disegna i rettangoli rossi
-            cv2.rectangle(img, (x, y), (x + w, y + h), (0, 0, 255), 1)
+            #cv2.rectangle(img, (x, y), (x + w, y + h), (0, 0, 255), 1)
 
             # Creating the cells
             block_width = cols / 10
@@ -120,15 +123,14 @@ def board_recognition(img):
                     block_x = block_width * board_col
                     block_y = block_height * board_row
 
-                    cv2.rectangle(
-                        img,
-                        (int(block_x), int(block_y)),
-                        (int(block_x + block_width), int(block_y + block_height)),
-                        (89,89,89), 1)
+                    # cv2.rectangle(
+                    #     img,
+                    #     (int(block_x), int(block_y)),
+                    #     (int(block_x + block_width), int(block_y + block_height)),
+                    #     (89,89,89), 1)
 
                     # Check if cell is occupied
                     if block_x <= x < block_x + block_width and block_y < + y < block_y + block_height:
-
                         board_array[board_row, board_col] = 1
 
 
@@ -157,8 +159,12 @@ if __name__ == '__main__':
     # cv2.waitKey(0)
     current_piece = None
     while True:
+        # https://www.youtube.com/watch?v=nfo8hmIcoDQ&t=895s (702, 336, 920, 773) windows (932, 544, 1129, 1221) macos
+        # https://www.youtube.com/watch?v=bcAGhChRu6k&t=952s (698, 289, 946, 784) windows
+        #
 
-        coords = (702, 336, 920, 773)#(698, 289, 946, 784)
+
+        coords = (932, 544, 1129, 1221)
         image1 = ImageGrab.grab(bbox=coords)
         image1 = np.array(image1)
         #image1 = cv2.cvtColor(image1, cv2.COLOR_RGB2BGR)
