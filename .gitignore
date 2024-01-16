@@ -1,3 +1,5 @@
 tetris/
 __pycache__/
 .idea/
+boards/*
+screens/*

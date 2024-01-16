@@ -1,15 +1,11 @@
-from datetime import datetime
 import cv2
 import mss
 import numpy as np
-from PIL import ImageGrab
 import os
 import pandas as pd
-from line_profiler import profile
 from Tetromino import *
 import time
-from pynput.keyboard import Key, Controller
-import multiprocessing
+from datetime import datetime
 
 tetrominoes = [
     T_Tetromino(),
@@ -133,44 +129,23 @@ def check_full_line(piece):
                 return True
     return False
 
-def convert_screen():
-    image_array = board_array.copy()
-    for i in range(20):
-        for j in range(10):
-            if image_array[i, j] == 1:
-                image_array[i, j] = 255
 
-    path = f"boards/{get_time_string()}.png"
-    return image_array, path
-
-def get_time_string():
-    (dt, micro) = datetime.utcnow().strftime('%Y-%m-%d_%H;%M;%S;.%f').split('.')
-    tm = "%s%04d" % (dt, int(micro) / 1000)
-    return tm
-
-def main(start, time_delay):
+def main():
 
     current_piece = None
     images = []
     all_images = []
-    temp = np.zeros((20,10))
     try:
-        while True:
-            if time.time() - start > time_delay:
-                for im in all_images:
-                    cv2.imwrite(im['path'], im['image'])
-                    del im['image']
-
-                df = pd.DataFrame(all_images, columns=["path", "type", "rotation", "final_col"])
-                df.to_csv(f"dataset_{get_time_string()}")
-                return
+        for i in range(10):
             # https://www.youtube.com/watch?v=nfo8hmIcoDQ&t=895s (702, 336, 920, 773) windows (932, 544, 1129, 1221) macos
             # https://www.youtube.com/watch?v=bcAGhChRu6k&t=952s (698, 289, 946, 784) windows
             #
 
-            with mss.mss() as sct:
-                monitor = (702, 336, 920, 773)
-                image1 = np.array(sct.grab(monitor))
+            # with mss.mss() as sct:
+            #     monitor = (702, 336, 920, 773)
+            #     image1 = np.array(sct.grab(monitor))
+
+            image1 = cv2.imread(f'screens/{i}.png')
 
             board_recognition(image1)
 
@@ -183,9 +158,7 @@ def main(start, time_delay):
                 to_print += f"Found {type} piece with rotation {rotation} in {coords}"
                 current_piece = piece
                 image_array, path = convert_screen()
-                if not np.array_equal(image_array,temp):
-                    images.append({"path": path, "image": image_array})
-                    temp = image_array
+                images.append({"path": path, "image": image_array})
 
             else:
                 to_print += "No piece found"
@@ -208,22 +181,31 @@ def main(start, time_delay):
             cls()
             print(to_print)
 
-    except KeyboardInterrupt:
         for im in all_images:
             cv2.imwrite(im['path'], im['image'])
             del im['image']
 
         df = pd.DataFrame(all_images, columns=["path", "type", "rotation", "final_col"])
         df.to_csv(f"dataset_{get_time_string()}")
+    except KeyboardInterrupt:
+        pass
+        # df = pd.DataFrame(all_images, columns=["path", "type", "rotation", "final_col"])
+        # df.to_csv()
+
+def convert_screen():
+    image_array = board_array.copy()
+    for i in range(20):
+        for j in range(10):
+            if image_array[i, j] == 1:
+                image_array[i, j] = 255
+
+    path = f"boards/{get_time_string()}.png"
+    return image_array, path
+
+def get_time_string():
+    (dt, micro) = datetime.utcnow().strftime('%Y-%m-%d_%H;%M;%S;.%f').split('.')
+    tm = "%s%04d" % (dt, int(micro) / 1000)
+    return tm
 
 if __name__ == '__main__':
-    time.sleep(4)
-    keyboard = Controller()
-    keyboard.press(Key.space)
-    keyboard.release(Key.space)
-    timestamps = [(420, 60), (375, 60), (410, 60), ]
-
-    for timestamp in timestamps:
-        start_timer = time.time()
-        main(start_timer, timestamp[0])
-        time.sleep(timestamp[1])
+    main()
