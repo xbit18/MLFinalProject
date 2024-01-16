@@ -164,12 +164,12 @@ def main(start, time_delay):
                 df = pd.DataFrame(all_images, columns=["path", "type", "rotation", "final_col"])
                 df.to_csv(f"dataset_{get_time_string()}")
                 return
-            # https://www.youtube.com/watch?v=nfo8hmIcoDQ&t=895s (702, 336, 920, 773) windows (932, 544, 1129, 1221) macos
+            # https://www.youtube.com/watch?v=nfo8hmIcoDQ&t=895s (702, 336, 920, 773) windows (465, 297, 610, 589) macos
             # https://www.youtube.com/watch?v=bcAGhChRu6k&t=952s (698, 289, 946, 784) windows
             #
 
             with mss.mss() as sct:
-                monitor = (702, 336, 920, 773)
+                monitor = (465, 297, 610, 589)
                 image1 = np.array(sct.grab(monitor))
 
             board_recognition(image1)
@@ -221,7 +221,8 @@ if __name__ == '__main__':
     keyboard = Controller()
     keyboard.press(Key.space)
     keyboard.release(Key.space)
-    timestamps = [(420, 60), (375, 60), (410, 60), ]
+    # timestamps = [(420, 60), (375, 60), (410, 60), ]
+    timestamps = [(3000,0)]
 
     for timestamp in timestamps:
         start_timer = time.time()
