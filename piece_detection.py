@@ -2,24 +2,24 @@ from datetime import datetime
 import cv2
 import mss
 import numpy as np
-from PIL import ImageGrab
 import os
 import pandas as pd
-from line_profiler import profile
 from Tetromino import *
 import time
 from pynput.keyboard import Key, Controller
 import multiprocessing
 
-tetrominoes = [
-    T_Tetromino(),
-    L_Tetromino(),
-    I_Tetromino(),
-    S_Tetromino(),
-    Z_Tetromino(),
-    J_Tetromino(),
-    O_Tetromino()
-]
+tetrominoes = {
+    "T": T_Tetromino(),
+    "L": L_Tetromino(),
+    "I": I_Tetromino(),
+    "S": S_Tetromino(),
+    "Z": Z_Tetromino(),
+    "J": J_Tetromino(),
+    "O": O_Tetromino()
+}
+
+previous_board = None
 
 board_array = np.zeros((20, 10))
 
@@ -28,10 +28,7 @@ def cls():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
-def check_tetromino(current_piece):
-    global tetrominoes
-    global board_array
-
+def get_extended_board():
     extended_board = np.zeros((28, 18))
 
     board_array0, board_array1 = 4, 4
@@ -43,6 +40,42 @@ def check_tetromino(current_piece):
     extended_board[paddingX:paddingX + padding.shape[0],
     paddingY:paddingY + padding.shape[1]] = padding
 
+    return extended_board
+
+def check_last_piece(current_piece):
+    global previous_board
+
+    tetromino = tetrominoes.get(current_piece[0])
+
+    extended_board = get_extended_board()
+
+    rows = 4, 25
+    cols = 4, 15
+
+    # Per ogni riga
+    for i in range(rows[0], rows[1]):
+        # Per ogni colonna
+        for j in range(cols[0], cols[1]):
+            for rotation, coords in tetromino.data.items():
+                piece_counter = 0
+                for x, y in coords['coords']:
+                    t = i + x
+                    z = j + y
+                    if t < 28 and z < 18:
+                        if extended_board[i + x, j + y] == 1 and previous_board[i + x, j + y] == 0:
+                            piece_counter += 1
+                if piece_counter == len(coords['coords']):
+                    return current_piece[0], rotation, (i - 4, j - 4)
+
+
+
+
+def check_tetromino(current_piece):
+    global tetrominoes
+    global board_array
+
+    extended_board = get_extended_board()
+
     rows = 4, 25
     cols = 4, 15
 
@@ -51,7 +84,7 @@ def check_tetromino(current_piece):
         # Per ogni colonna
         for j in range(cols[0], cols[1]):
             # Per ogni tipo di tetromino
-            for tetromino in tetrominoes:
+            for tetromino in tetrominoes.values():
 
                 # Per ogni rotazione del tetromino
                 for rotation, coords in tetromino.data.items():
@@ -149,7 +182,7 @@ def get_time_string():
     return tm
 
 def main(start, time_delay):
-
+    global previous_board
     current_piece = None
     images = []
     all_images = []
@@ -169,7 +202,7 @@ def main(start, time_delay):
             #
 
             with mss.mss() as sct:
-                monitor = (465, 297, 610, 589)
+                monitor = (702, 336, 920, 773)
                 image1 = np.array(sct.grab(monitor))
 
             board_recognition(image1)
@@ -188,12 +221,19 @@ def main(start, time_delay):
                     temp = image_array
 
             else:
+                if not np.array_equal(board_array, np.zeros((20,10))):
+                    previous_board = board_array.copy()
+
+                    current_piece = check_last_piece(current_piece)
+
                 to_print += "No piece found"
+
+
 
                 for i in range(len(images)):
                     images[i]["type"] = current_piece[0]
                     images[i]["rotation"] = current_piece[1]
-                    images[i]["final_col"] = current_piece[2][1]
+                    images[i]["final_col"] = current_piece[2]
 
                 all_images.extend(images)
 
