@@ -1,9 +1,14 @@
+import pprint
+import time
 from datetime import datetime
 import cv2
 import mss
 import numpy as np
 import os
 import pandas as pd
+import selenium.common.exceptions
+from pynput.keyboard import Controller, Key
+
 from Tetromino import *
 from selenium import webdriver
 
@@ -188,7 +193,7 @@ def check_game_started(score_coords):
         height = int(score.shape[0] * scale_percent / 100)
         dim = (width, height)
 
-        score = cv2.resize(score, dim, interpolation = cv2.INTER_AREA)
+        score = cv2.resize(score, dim, interpolation=cv2.INTER_AREA)
 
     template = cv2.imread('./images/score_template.png', cv2.IMREAD_GRAYSCALE)
 
@@ -220,11 +225,11 @@ def main(board_coords, score_coords):
         if check_video_ended():
             break
 
-        if not game_started: # Se la partita non è cominciata, controlla di nuovo
+        if not game_started:  # Se la partita non è cominciata, controlla di nuovo
             print(f"Game has not started")
             game_started = check_game_started(score_coords)
 
-        else: # Se è cominciata
+        else:  # Se è cominciata
 
             with mss.mss() as sct:
                 monitor = tuple(board_coords)
@@ -232,7 +237,7 @@ def main(board_coords, score_coords):
 
             board_array = board_recognition(image1)
 
-            if check_game_ended(board_array): # Se la partita è finita, aspetta di nuovo che cominci
+            if check_game_ended(board_array):  # Se la partita è finita, aspetta di nuovo che cominci
                 print(f"Game has ended")
                 game_started = False
                 continue
@@ -291,18 +296,57 @@ def main(board_coords, score_coords):
 
 
 if __name__ == '__main__':
-    options = webdriver.EdgeOptions()
-    options.add_argument("--start-maximized")
-    driver = webdriver.Edge(options=options)
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.support.ui import WebDriverWait
+    from selenium.webdriver.support import expected_conditions as EC
+    from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
+
+    options = webdriver.FirefoxOptions()
+    driver = webdriver.Firefox(options=options)
+    driver.install_addon("./ublockorigin.xpi")
+    time.sleep(1)
 
     videos = [
         {
-            "url" : "https://www.youtube.com/watch?v=nfo8hmIcoDQ&t=895s",
-            "board_coords" : [[465, 297, 610, 589],[653, 297, 798, 589]],
-            "score_coords" : [[440, 150, 632, 260],[632, 150, 824, 260]]
+            "url": "https://www.youtube.com/watch?v=QC8iQqtG0hg&pp=ygUPNSBzZWNvbmRzIHZpZGVv", #https://www.youtube.com/watch?v=nfo8hmIcoDQ",
+            "board_coords": [[465, 297, 610, 589], [653, 297, 798, 589]],
+            "score_coords": [[440, 150, 632, 260], [632, 150, 824, 260]]
         }
     ]
 
+    accepted_cookies = False
+    cinema_button_pressed = False
     for video in videos:
         driver.get(video['url'])
-        #main(video['board_coords'], video['score_coords'])
+        driver.add_cookie({"name": "wide", "value": "1"})
+        driver.maximize_window()
+
+        if not accepted_cookies:
+            WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "/html/body/ytd-app/ytd-consent-bump-v2-lightbox/tp-yt-paper-dialog/div[4]/div[2]/div[6]/div[1]/ytd-button-renderer[2]/yt-button-shape/button"))).click()
+            accepted_cookies = True
+
+        # driver.refresh()
+        while True:
+            button = driver.find_element(By.CSS_SELECTOR, "button.ytp-play-button")
+            print(button.get_attribute("aria-label"))
+        # time.sleep(7)
+        # keyboard = Controller()
+        # keyboard.press(Key.space)
+        # keyboard.release(Key.space)
+        #
+        # # cinema_button = "/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[1]/div[2]/div/div/ytd-player/div/div/div[30]/div[2]/div[2]/button[7]"
+        # # WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, cinema_button))).click()
+        #
+        # while True:
+        #     try:
+        #         btn = driver.find_element(By.XPATH, "/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[3]/div[1]/div[2]/ytd-player/div/div/div[36]/div[2]/div[1]/button")
+        #         print(btn.get_attribute("title"))
+        #         if btn.get_attribute("title") == "Riproduci (k)":
+        #             btn.click()
+        #         elif btn.get_attribute("title") == "Rivedi":
+        #             break
+        #     except:
+        #         pass
+        # cls()
+        # print("video ended")
+        # # main(video['board_coords'], video['score_coords'])
