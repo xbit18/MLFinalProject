@@ -260,6 +260,8 @@ def main(board_coords, score_coords, time_to_end, part, video, score_template_pa
 
                 current_piece, full_line = find_piece(board_array)
                 if full_line:
+                    cls()
+                    print("Full line detected, skipping 0.7 seconds")
                     time.sleep(0.7)
 
                 # Se non ho trovato un pezzo ora, e non ne avevo trovato prima, continuo a cercare
@@ -335,11 +337,11 @@ if __name__ == '__main__':
 
     videos = [
         {
-            "url": "https://www.youtube.com/watch?v=nfo8hmIcoDQ",
-            "board_coords": [[713, 347, 928, 780], [992, 347, 1207, 780]],
-            "score_coords": [[690, 145, 950, 263], [970, 145, 1230, 263]],
+            "url": "https://youtu.be/nfo8hmIcoDQ?si=J3_lqbjBy8bFYyWn&t=123",
+            "board_coords": [[713, 347, 928, 780], [992, 347, 1207, 780]], #[[950/2, 606/2, 1237/2, 1186/2], [1323/2, 606/2, 1611/2, 1186/2]],
+            "score_coords": [[690, 145, 950, 263], [970, 145, 1230, 263]], #[[910/2, 325/2, 1280/2, 494/2], [1280/2, 325/2, 1650/2, 494/2]],
             "score_template": "./images/score_template0.png",
-            "duration": 2220
+            "duration": 2220-123
         },
         {
             "url": "https://www.youtube.com/watch?v=bcAGhChRu6k",
@@ -352,7 +354,7 @@ if __name__ == '__main__':
 
     # accepted_cookies = False
     # maximized = False
-    #for video in videos:
+    # for video in videos:
     #     driver.get(video['url'])
     #     driver.add_cookie({"name": "wide", "value": "1"})
     #
@@ -378,8 +380,8 @@ if __name__ == '__main__':
     #         scoreL = np.array(sct.grab(leftscore))
     #         scoreR = np.array(sct.grab(rightscore))
     #
-    #     cv2.imshow("Boards", np.concatenate((boardL, boardR), axis=1))
-    #     cv2.imshow("Scores", np.concatenate((scoreL, scoreR), axis=1))
+    #     cv2.imshow("Boards", boardL)
+    #     cv2.imshow("Scores", scoreL)
     #     cv2.waitKey(0)
     #     cv2.destroyAllWindows()
     #
@@ -429,6 +431,8 @@ if __name__ == '__main__':
         if player_status == -1: #video has not started playing
             keyboard.press("k")
             keyboard.release("k")
+
+        #driver.execute_script("document.getElementById('movie_player').setPlaybackRate(1.75)")
 
         with ProcessPoolExecutor(2) as executor:
             futures = []
