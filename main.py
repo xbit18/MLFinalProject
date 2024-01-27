@@ -295,7 +295,7 @@ def main(board_coords, score_coords, time_to_end, part, video, score_template_pa
                 if current_piece != (None, None):  # and last_piece != (None, None):
                     to_print = current_piece
                     image_array, path = convert_screen(board_array, part, video)
-                    if not np.array_equal(image_array, previous_image):
+                    if last_piece == (None, None) and not np.array_equal(image_array, previous_image):
                         images.append({"path": path, "image": image_array})
                         previous_image = image_array
                     last_piece = current_piece
@@ -303,7 +303,7 @@ def main(board_coords, score_coords, time_to_end, part, video, score_template_pa
             cls()
             print(to_print)
             time.sleep(0.1)
-        
+
         for im in all_images:
             cv2.imwrite(im['path'], im['image'])
             del im['image']
@@ -318,21 +318,6 @@ def main(board_coords, score_coords, time_to_end, part, video, score_template_pa
 
         df = pd.DataFrame(all_images, columns=["path", "type", "rotation", "final_col"])
         df.to_csv(f"./datasets/dataset_{video}_{part}.csv")
-
-def parse_duration(duration):
-    elems = str(duration).split(":")
-    if len(elems) == 3:
-        hrs = int(elems[0])
-        mins = int(elems[1])
-        secs = int(elems[2])
-    else:
-        hrs = 0
-        mins = int(elems[0])
-        secs = int(elems[1])
-
-    time_to_pass = hrs * 3600 + mins * 60 + secs
-
-    return time_to_pass
 
 if __name__ == '__main__':
     from selenium.webdriver.common.by import By

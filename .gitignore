@@ -4,3 +4,4 @@ __pycache__/
 boards/*
 screens/*
 .DS_Store
+datasets/*
