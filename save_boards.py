@@ -19,23 +19,32 @@ from selenium.webdriver import Keys
 from Tetromino import *
 from selenium import webdriver
 
+
 def cls():
     os.system('cls' if os.name == 'nt' else 'clear')
+
+
+def get_full_lines(board):
+    full_lines = []
+    for row in range(20):
+        if np.sum(board[row]) == 10:
+            full_lines.append(row)
+
+    return full_lines
 
 
 def get_extended_board(board_to_expand):
     extended_board = np.zeros((28, 18))
 
     board_to_expand0, board_to_expand1 = 4, 4
-    extended_board[board_to_expand0:board_to_expand0 + board_to_expand.shape[0],
-    board_to_expand1:board_to_expand1 + board_to_expand.shape[1]] = board_to_expand
+    extended_board[board_to_expand0:board_to_expand0 + board_to_expand.shape[0], board_to_expand1:board_to_expand1 + board_to_expand.shape[1]] = board_to_expand
 
     padding = np.ones((4, 10))
     paddingX, paddingY = 24, 4
-    extended_board[paddingX:paddingX + padding.shape[0],
-    paddingY:paddingY + padding.shape[1]] = padding
+    extended_board[paddingX:paddingX + padding.shape[0], paddingY:paddingY + padding.shape[1]] = padding
 
     return extended_board
+
 
 def convert_screen(board_array, part, video):
     image_array = board_array.copy()
@@ -47,10 +56,12 @@ def convert_screen(board_array, part, video):
     path = f"./boards/video{video}/{part}/{get_time_string()}.png"
     return image_array, path
 
+
 def get_time_string():
     (dt, micro) = datetime.now().strftime('%Y-%m-%d_%H;%M;%S;.%f').split('.')
     tm = "%s%04d" % (dt, int(micro) / 1000)
     return tm
+
 
 def board_recognition(img):
     board_array = np.zeros((20, 10))
@@ -86,10 +97,12 @@ def board_recognition(img):
 
 def main(board_coords, score_coords, time_to_end, part, video, score_template_path):
     start_time = time.time()
-    previous_image = np.zeros((20, 10))
-
+    previous_board = np.zeros((20, 10))
+    images = []
     while True:
-        if time.time() > start_time + time_to_end:
+
+        if time.time() > start_time + time_to_end or len(images) > 20:
+            pd.DataFrame(data=images).to_csv(f"./boards/images_{video}_{part}.csv", index=False, header=False)
             break
 
         with mss.mss() as sct:
@@ -101,11 +114,34 @@ def main(board_coords, score_coords, time_to_end, part, video, score_template_pa
         # if not (np.sum(board_array[0]) != 0 and np.sum(board_array[:5]) == 4):
         #     continue
 
-        image_array, path = convert_screen(board_array, part, video)
 
-        if not np.array_equal(image_array, previous_image):
-            cv2.imwrite(path, image_array)
-            previous_image = image_array
+
+        skip = False
+
+        if np.sum(board_array) == 200 or \
+                np.sum(board_array[0]) == 0:
+            skip = True
+
+        good = False
+        for i in range(1, 5):
+            if np.sum(board_array[:i]) == 4 and np.sum(board_array[i]) == 0:
+                good = True
+
+        if not good:
+            skip = True
+
+        if len(get_full_lines(board_array)) == 1 or len(get_full_lines(board_array)) == 4:
+            skip = False
+
+        if skip:
+            continue
+
+        image_array, path = convert_screen(board_array, part, video)
+        if not np.array_equal(board_array, previous_board):
+            previous_board = board_array
+            images.append(board_array.flatten())
+
+
 
 
 if __name__ == '__main__':
@@ -201,8 +237,8 @@ if __name__ == '__main__':
         video = videos[i]
         if video['done']:
             continue
-        Path(f"./boards/video{i}/left").mkdir(parents=True, exist_ok=True)
-        Path(f"./boards/video{i}/right").mkdir(parents=True, exist_ok=True)
+        # Path(f"./boards/video{i}/left").mkdir(parents=True, exist_ok=True)
+        # Path(f"./boards/video{i}/right").mkdir(parents=True, exist_ok=True)
 
         driver.get(video['url'])
         driver.add_cookie({"name": "wide", "value": "1"})
@@ -228,7 +264,7 @@ if __name__ == '__main__':
             keyboard.press("k")
             keyboard.release("k")
 
-        driver.execute_script("document.getElementById('movie_player').setPlaybackRate(2)")
+        # driver.execute_script("document.getElementById('movie_player').setPlaybackRate(2)")
 
         with ProcessPoolExecutor(2) as executor:
             futures = []
