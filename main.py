@@ -230,7 +230,7 @@ def main(board_coords, score_coords, time_to_end, part, video, score_template_pa
         board_array = np.zeros((20, 10))
         previous_board = np.zeros((20, 10))
 
-        game_started = False
+        game_started = True
         to_print = ""
         while True:
             if time.time() > start_time + time_to_end:
@@ -248,21 +248,28 @@ def main(board_coords, score_coords, time_to_end, part, video, score_template_pa
 
                 board_array = board_recognition(image1)
 
-                if check_game_ended(board_array):  # Se la partita è finita, aspetta di nuovo che cominci
-                    to_print = "Game has ended"
-                    game_started = False
-                    continue
+                image_array, path = convert_screen(board_array, part, video)
+                if not not np.array_equal(image_array, previous_image):
+                #if last_piece == (None, None) and not np.array_equal(image_array, previous_image):
+                    cv2.imwrite(path, image_array)
+                    #images.append({"path": path, "image": image_array})
+                    previous_image = image_array
+                continue
+                # if check_game_ended(board_array):  # Se la partita è finita, aspetta di nuovo che cominci
+                #     to_print = "Game has ended"
+                #     game_started = False
+                #     continue
 
                 # Se la board è vuota
-                if np.array_equal(board_array, np.zeros((20, 10))):
-                    previous_board = board_array
-                    continue
+                # if np.array_equal(board_array, np.zeros((20, 10))):
+                #     previous_board = board_array
+                #     continue
 
                 current_piece, full_line = find_piece(board_array)
-                if full_line:
-                    cls()
-                    print("Full line detected, skipping 0.7 seconds")
-                    time.sleep(0.7)
+                # if full_line:
+                #     cls()
+                #     print("Full line detected, skipping 0.7 seconds")
+                #     time.sleep(0.7)
 
                 # Se non ho trovato un pezzo ora, e non ne avevo trovato prima, continuo a cercare
                 if current_piece == (None, None) and last_piece == (None, None):
@@ -306,20 +313,20 @@ def main(board_coords, score_coords, time_to_end, part, video, score_template_pa
             print(to_print)
             time.sleep(0.1)
 
-        for im in all_images:
-            cv2.imwrite(im['path'], im['image'])
-            del im['image']
-
-        df = pd.DataFrame(all_images, columns=["path", "type", "rotation", "final_col"])
-        df.to_csv(f"./datasets/dataset_{video}_{part}.csv")
+        # for im in all_images:
+        #     cv2.imwrite(im['path'], im['image'])
+        #     del im['image']
+        #
+        # df = pd.DataFrame(all_images, columns=["path", "type", "rotation", "final_col"])
+        # df.to_csv(f"./datasets/dataset_{video}_{part}.csv")
     except KeyboardInterrupt:
-
-        for im in all_images:
-            cv2.imwrite(im['path'], im['image'])
-            del im['image']
-
-        df = pd.DataFrame(all_images, columns=["path", "type", "rotation", "final_col"])
-        df.to_csv(f"./datasets/dataset_{video}_{part}.csv")
+        quit()
+        # for im in all_images:
+        #     cv2.imwrite(im['path'], im['image'])
+        #     del im['image']
+        #
+        # df = pd.DataFrame(all_images, columns=["path", "type", "rotation", "final_col"])
+        # df.to_csv(f"./datasets/dataset_{video}_{part}.csv")
 
 if __name__ == '__main__':
     from selenium.webdriver.common.by import By
@@ -341,14 +348,24 @@ if __name__ == '__main__':
             "board_coords": [[713, 347, 928, 780], [992, 347, 1207, 780]], #[[950/2, 606/2, 1237/2, 1186/2], [1323/2, 606/2, 1611/2, 1186/2]],
             "score_coords": [[690, 145, 950, 263], [970, 145, 1230, 263]], #[[910/2, 325/2, 1280/2, 494/2], [1280/2, 325/2, 1650/2, 494/2]],
             "score_template": "./images/score_template0.png",
-            "duration": 2220-123
+            "duration": 2220-123,
+            "done": False
         },
         {
             "url": "https://www.youtube.com/watch?v=bcAGhChRu6k",
             "board_coords": [[709, 301, 952, 789], [968, 301, 1210, 789]],
             "score_coords": [[740, 130, 960, 220], [960, 130, 1175, 220]],
             "score_template": "./images/score_template1.png",
-            "duration": 3780
+            "duration": 3780,
+            "done": False
+        },
+        {
+            "url": "https://www.youtube.com/watch?v=ppOupG_aNBA&t=45s",
+            "board_coords": [[706, 314, 960, 803], [960, 314, 1214, 803]],
+            "score_coords": [[706, 145, 960, 245], [960, 145, 1214, 245]],
+            "score_template": "./images/score_template2.png",
+            "duration": 1845,
+            "done": False
         },
     ]
 
@@ -405,6 +422,8 @@ if __name__ == '__main__':
 
     for i in range(len(videos)):
         video = videos[i]
+        if video['done']:
+            continue
         Path(f"./boards/video{i}/left").mkdir(parents=True, exist_ok=True)
         Path(f"./boards/video{i}/right").mkdir(parents=True, exist_ok=True)
 

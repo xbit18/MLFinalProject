@@ -1,7 +1,7 @@
 tetris/
 __pycache__/
 .idea/
-boards/*
 screens/*
 .DS_Store
 datasets/*
+boards/*
