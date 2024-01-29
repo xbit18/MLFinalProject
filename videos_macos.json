@@ -1,0 +1,104 @@
+[
+    {
+        "url": "https://youtu.be/nfo8hmIcoDQ?si=J3_lqbjBy8bFYyWn&t=123",
+        "board_coords": [
+            [
+                475,
+                305,
+                619,
+                595
+            ],
+            [
+                662,
+                305,
+                806,
+                595
+            ]
+        ],
+        "score_coords": [
+            [
+                461,
+                168,
+                640,
+                247
+            ],
+            [
+                640,
+                163,
+                823,
+                249
+            ]
+        ],
+        "duration": 2097,
+        "score_template": "./images/score_template0.png",
+        "done": false
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=bcAGhChRu6k",
+        "board_coords": [
+            [
+                473,
+                276,
+                636,
+                603
+            ],
+            [
+                647,
+                276,
+                808,
+                601
+            ]
+        ],
+        "score_coords": [
+            [
+                489,
+                163,
+                641,
+                219
+            ],
+            [
+                639,
+                164,
+                781,
+                218
+            ]
+        ],
+        "duration": 3780,
+        "score_template": "./images/score_template1.png",
+        "done": false
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=ppOupG_aNBA&t=45s",
+        "board_coords": [
+            [
+                471,
+                283,
+                634,
+                609
+            ],
+            [
+                647,
+                284,
+                810,
+                609
+            ]
+        ],
+        "score_coords": [
+            [
+                460,
+                168,
+                640,
+                237
+            ],
+            [
+                640,
+                163,
+                821,
+                235
+            ]
+        ],
+        "duration": 1880,
+        "score_template": "./images/score_template2.png",
+        "done": false
+    }
+]

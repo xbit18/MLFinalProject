@@ -1,3 +1,5 @@
+import json
+import platform
 import pprint
 import time
 from datetime import datetime
@@ -120,32 +122,13 @@ if __name__ == '__main__':
     keyboard = Controller()
     time.sleep(1)
 
-    videos = [
-        {
-            "url": "https://youtu.be/nfo8hmIcoDQ?si=J3_lqbjBy8bFYyWn&t=123",
-            "board_coords": [[713, 347, 928, 780], [992, 347, 1207, 780]], #[[950/2, 606/2, 1237/2, 1186/2], [1323/2, 606/2, 1611/2, 1186/2]],
-            "score_coords": [[690, 145, 950, 263], [970, 145, 1230, 263]], #[[910/2, 325/2, 1280/2, 494/2], [1280/2, 325/2, 1650/2, 494/2]],
-            "score_template": "./images/score_template0.png",
-            "duration": 2097/2,
-            "done": False
-        },
-        {
-            "url": "https://www.youtube.com/watch?v=bcAGhChRu6k",
-            "board_coords": [[709, 301, 952, 789], [968, 301, 1210, 789]],
-            "score_coords": [[740, 130, 960, 220], [960, 130, 1175, 220]],
-            "score_template": "./images/score_template1.png",
-            "duration": 3780/2,
-            "done": False
-        },
-        {
-            "url": "https://www.youtube.com/watch?v=ppOupG_aNBA&t=45s",
-            "board_coords": [[706, 314, 960, 803], [960, 314, 1214, 803]],
-            "score_coords": [[706, 145, 960, 245], [960, 145, 1214, 245]],
-            "score_template": "./images/score_template2.png",
-            "duration": 1845/2,
-            "done": False
-        },
-    ]
+    if platform.system() == "Darwin":
+        file_name = "videos_macos.json"
+    else:
+        file_name = "videos_windows.json"
+
+    f = open(file_name, )
+    videos = json.load(f)
 
     # accepted_cookies = False
     # maximized = False
@@ -175,8 +158,24 @@ if __name__ == '__main__':
     #         scoreL = np.array(sct.grab(leftscore))
     #         scoreR = np.array(sct.grab(rightscore))
     #
-    #     cv2.imshow("Boards", boardL)
-    #     cv2.imshow("Scores", scoreL)
+    #     height = boardL.shape[0]
+    #     width = boardR.shape[1]
+    #     boardR = cv2.resize(boardR, (width, height))
+    #     board_img = np.concatenate([boardL, boardR], axis=1)
+    #
+    #     height = scoreL.shape[0]
+    #     width = scoreR.shape[1]
+    #     scoreR = cv2.resize(scoreR, (width, height))
+    #     score_img = np.concatenate([scoreL, scoreR], axis=1)
+    #
+    #     height = score_img.shape[0]
+    #     width = board_img.shape[1]
+    #
+    #     score_img = cv2.resize(score_img, (width, height))
+    #
+    #     whole_img = np.concatenate([score_img, board_img], axis=0)
+    #
+    #     cv2.imshow("screen", whole_img)
     #     cv2.waitKey(0)
     #     cv2.destroyAllWindows()
     #
