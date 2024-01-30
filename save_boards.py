@@ -116,25 +116,25 @@ def main(board_coords, score_coords, time_to_end, part, video, score_template_pa
 
 
 
-        skip = False
-
-        if np.sum(board_array) == 200 or \
-                np.sum(board_array[0]) == 0:
-            skip = True
-
-        good = False
-        for i in range(1, 5):
-            if np.sum(board_array[:i]) == 4 and np.sum(board_array[i]) == 0:
-                good = True
-
-        if not good:
-            skip = True
-
-        if len(get_full_lines(board_array)) == 1 or len(get_full_lines(board_array)) == 4:
-            skip = False
-
-        if skip:
-            continue
+        # skip = False
+        #
+        # if np.sum(board_array) == 200 or \
+        #         np.sum(board_array[0]) == 0:
+        #     skip = True
+        #
+        # good = False
+        # for i in range(1, 5):
+        #     if np.sum(board_array[:i]) == 4 and np.sum(board_array[i]) == 0:
+        #         good = True
+        #
+        # if not good:
+        #     skip = True
+        #
+        # if len(get_full_lines(board_array)) == 1 or len(get_full_lines(board_array)) == 4:
+        #     skip = False
+        #
+        # if skip:
+        #     continue
 
         image_array, path = convert_screen(board_array, part, video)
         if not np.array_equal(board_array, previous_board):
