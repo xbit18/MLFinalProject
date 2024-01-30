@@ -101,7 +101,7 @@ def main(board_coords, score_coords, time_to_end, part, video, score_template_pa
     images = []
     while True:
 
-        if time.time() > start_time + time_to_end or len(images) > 20:
+        if time.time() > start_time + time_to_end:
             pd.DataFrame(data=images).to_csv(f"./boards/images_{video}_{part}.csv", index=False, header=False)
             break
 

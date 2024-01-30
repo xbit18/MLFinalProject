@@ -5,3 +5,4 @@ screens/*
 .DS_Store
 datasets/*
 boards/*
+videos_windows.json

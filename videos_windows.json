@@ -13,7 +13,7 @@
             "score_coords": [[740, 130, 960, 220], [960, 130, 1175, 220]],
             "score_template": "./images/score_template1.png",
             "duration": 3780,
-            "done": false
+            "done": true
         },
         {
             "url": "https://www.youtube.com/watch?v=ppOupG_aNBA&t=45s",
@@ -21,6 +21,6 @@
             "score_coords": [[706, 145, 960, 245], [960, 145, 1214, 245]],
             "score_template": "./images/score_template2.png",
             "duration": 1845,
-            "done": false
+            "done": true
         }
 ]
