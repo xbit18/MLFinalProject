@@ -62,6 +62,8 @@ if __name__ == '__main__':
     maximized = False
 
     for idx, video in enumerate(videos):
+        if video.get("board_coords") is not None:
+            continue
 
         driver.get(video['url'])
         driver.add_cookie({"name": "wide", "value": "1"})
