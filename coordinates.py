@@ -7,6 +7,7 @@ from pynput import mouse
 import numpy as np
 from pynput.keyboard import Controller
 from selenium import webdriver
+import os
 
 coordinates = []
 
@@ -83,6 +84,10 @@ if __name__ == '__main__':
             video[i] = dict()
             for j in ['left', 'right']:
                 for x in ['up', 'down']:
+                    os.system("clear")
+                    print(i)
+                    print(j)
+                    print(x)
                     with mouse.Listener(
                             on_click=on_click) as listener:
                         listener.join()

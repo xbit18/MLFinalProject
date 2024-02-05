@@ -1,26 +1,546 @@
 [
     {
-            "url": "https://youtu.be/nfo8hmIcoDQ?si=J3_lqbjBy8bFYyWn&t=123",
-            "board_coords": [[713, 347, 928, 780], [992, 347, 1207, 780]],
-            "score_coords": [[690, 145, 950, 263], [970, 145, 1230, 263]],
-            "score_template": "./images/score_template0.png",
-            "duration": 2097,
-            "done": false
-        },
-        {
-            "url": "https://www.youtube.com/watch?v=bcAGhChRu6k",
-            "board_coords": [[709, 301, 952, 789], [968, 301, 1210, 789]],
-            "score_coords": [[740, 130, 960, 220], [960, 130, 1175, 220]],
-            "score_template": "./images/score_template1.png",
-            "duration": 3780,
-            "done": true
-        },
-        {
-            "url": "https://www.youtube.com/watch?v=ppOupG_aNBA&t=45s",
-            "board_coords": [[706, 314, 960, 803], [960, 314, 1214, 803]],
-            "score_coords": [[706, 145, 960, 245], [960, 145, 1214, 245]],
-            "score_template": "./images/score_template2.png",
-            "duration": 1845,
-            "done": true
-        }
+        "url": "https://youtu.be/nfo8hmIcoDQ?si=J3_lqbjBy8bFYyWn&t=123",
+        "board_coords": [
+            [
+                713,
+                347,
+                928,
+                780
+            ],
+            [
+                992,
+                347,
+                1207,
+                780
+            ]
+        ],
+        "score_coords": [
+            [
+                690,
+                145,
+                950,
+                263
+            ],
+            [
+                970,
+                145,
+                1230,
+                263
+            ]
+        ],
+        "score_template": "./images/score_template0.png",
+        "duration": 2097,
+        "done": true
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=bcAGhChRu6k&t=8",
+        "board_coords": [
+            [
+                709,
+                301,
+                952,
+                789
+            ],
+            [
+                968,
+                301,
+                1210,
+                789
+            ]
+        ],
+        "score_coords": [
+            [
+                740,
+                130,
+                960,
+                220
+            ],
+            [
+                960,
+                130,
+                1175,
+                220
+            ]
+        ],
+        "score_template": "./images/score_template1.png",
+        "duration": 3780,
+        "done": true
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=ppOupG_aNBA&t=45s",
+        "board_coords": [
+            [
+                706,
+                314,
+                960,
+                803
+            ],
+            [
+                960,
+                314,
+                1214,
+                803
+            ]
+        ],
+        "score_coords": [
+            [
+                706,
+                145,
+                960,
+                245
+            ],
+            [
+                960,
+                145,
+                1214,
+                245
+            ]
+        ],
+        "score_template": "./images/score_template2.png",
+        "duration": 1845,
+        "done": true
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=xHqsSBDyUsE&t=7",
+        "board_coords": [
+            [
+                709,
+                302,
+                952,
+                789
+            ],
+            [
+                971,
+                301,
+                1211,
+                787
+            ]
+        ],
+        "score_coords": [
+            [
+                734,
+                135,
+                959,
+                218
+            ],
+            [
+                958,
+                135,
+                1165,
+                218
+            ]
+        ],
+        "duration": 2907,
+        "score_template": "./images/score_template4.png",
+        "done": true
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=5sxMqLjTv6k&t=38",
+        "board_coords": [
+            [
+                710,
+                345,
+                928,
+                778
+            ],
+            [
+                991,
+                345,
+                1209,
+                779
+            ]
+        ],
+        "score_coords": [
+            [
+                693,
+                149,
+                959,
+                261
+            ],
+            [
+                957,
+                140,
+                1231,
+                259
+            ]
+        ],
+        "duration": 2010,
+        "score_template": "./images/score_template5.png",
+        "done": true
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=d_HcmEMlwS4&t=44",
+        "board_coords": [
+            [
+                735,
+                322,
+                952,
+                753
+            ],
+            [
+                967,
+                322,
+                1183,
+                753
+            ]
+        ],
+        "score_coords": [
+            [
+                754,
+                140,
+                959,
+                247
+            ],
+            [
+                959,
+                143,
+                1147,
+                249
+            ]
+        ],
+        "duration": 2776,
+        "score_template": "./images/score_template6.png",
+        "done": true
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=1L_l4dj0KRA&t=10",
+        "board_coords": [
+            [
+                736,
+                337,
+                952,
+                770
+            ],
+            [
+                967,
+                337,
+                1182,
+                770
+            ]
+        ],
+        "score_coords": [
+            [
+                753,
+                149,
+                958,
+                262
+            ],
+            [
+                959,
+                147,
+                1159,
+                261
+            ]
+        ],
+        "duration": 3454,
+        "score_template": "./images/score_template7.png",
+        "done": true
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=9penfXgG96g&t=146",
+        "board_coords": [
+            [
+                705,
+                312,
+                950,
+                801
+            ],
+            [
+                969,
+                312,
+                1213,
+                800
+            ]
+        ],
+        "score_coords": [
+            [
+                675,
+                135,
+                960,
+                244
+            ],
+            [
+                959,
+                135,
+                1233,
+                241
+            ]
+        ],
+        "duration": 3176,
+        "score_template": "./images/score_template8.png",
+        "done": true
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=dtLQOIwdjX4&t=32",
+        "board_coords": [
+            [
+                735,
+                321,
+                952,
+                753
+            ],
+            [
+                967,
+                321,
+                1182,
+                753
+            ]
+        ],
+        "score_coords": [
+            [
+                758,
+                144,
+                959,
+                246
+            ],
+            [
+                960,
+                144,
+                1152,
+                245
+            ]
+        ],
+        "duration": 2644,
+        "score_template": "./images/score_template9.png",
+        "done": true
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=nXjPlsIFyAs&t=21",
+        "board_coords": [
+            [
+                736,
+                322,
+                952,
+                755
+            ],
+            [
+                967,
+                322,
+                1182,
+                755
+            ]
+        ],
+        "score_coords": [
+            [
+                755,
+                145,
+                959,
+                246
+            ],
+            [
+                960,
+                143,
+                1150,
+                246
+            ]
+        ],
+        "duration": 1589,
+        "score_template": "./images/score_template10.png",
+        "done": true
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=Rsv6PaaJs3M&t=26",
+        "board_coords": [
+            [
+                736,
+                322,
+                951,
+                754
+            ],
+            [
+                967,
+                322,
+                1183,
+                755
+            ]
+        ],
+        "score_coords": [
+            [
+                754,
+                144,
+                959,
+                247
+            ],
+            [
+                959,
+                143,
+                1144,
+                246
+            ]
+        ],
+        "duration": 3424,
+        "score_template": "./images/score_template11.png",
+        "done": true
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=Oy34E9KbgbE&t=19",
+        "board_coords": [
+            [
+                736,
+                322,
+                951,
+                754
+            ],
+            [
+                967,
+                322,
+                1183,
+                755
+            ]
+        ],
+        "score_coords": [
+            [
+                763,
+                146,
+                958,
+                245
+            ],
+            [
+                960,
+                145,
+                1148,
+                247
+            ]
+        ],
+        "duration": 1511,
+        "score_template": "./images/score_template12.png",
+        "done": true
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=HwZM6fP6lqk&t=99",
+        "board_coords": [
+            [
+                736,
+                322,
+                951,
+                755
+            ],
+            [
+                967,
+                322,
+                1183,
+                754
+            ]
+        ],
+        "score_coords": [
+            [
+                762,
+                144,
+                958,
+                247
+            ],
+            [
+                960,
+                143,
+                1147,
+                245
+            ]
+        ],
+        "duration": 2391,
+        "score_template": "./images/score_template13.png",
+        "done": true
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=V4FtRpnaNIg&t=28",
+        "board_coords": [
+            [
+                736,
+                322,
+                951,
+                754
+            ],
+            [
+                967,
+                322,
+                1183,
+                754
+            ]
+        ],
+        "score_coords": [
+            [
+                760,
+                142,
+                959,
+                245
+            ],
+            [
+                959,
+                143,
+                1145,
+                248
+            ]
+        ],
+        "duration": 2239,
+        "score_template": "./images/score_template14.png",
+        "done": true
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=iGPgP2QCLJA&t=115",
+        "board_coords": [
+            [
+                736,
+                322,
+                952,
+                754
+            ],
+            [
+                967,
+                322,
+                1183,
+                754
+            ]
+        ],
+        "score_coords": [
+            [
+                762,
+                141,
+                959,
+                246
+            ],
+            [
+                958,
+                142,
+                1140,
+                247
+            ]
+        ],
+        "duration": 3245,
+        "score_template": "./images/score_template15.png",
+        "done": true
+    },
+    {
+        "url": "https://www.youtube.com/watch?v=NsO2XvoDy6g&t=20",
+        "board_coords": [
+            [
+                736,
+                322,
+                951,
+                754
+            ],
+            [
+                967,
+                322,
+                1183,
+                754
+            ]
+        ],
+        "score_coords": [
+            [
+                768,
+                141,
+                959,
+                247
+            ],
+            [
+                959,
+                142,
+                1148,
+                247
+            ]
+        ],
+        "duration": 2691,
+        "score_template": "./images/score_template16.png",
+        "done": true
+    }
 ]

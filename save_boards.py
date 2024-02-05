@@ -98,11 +98,9 @@ def board_recognition(img):
 def main(board_coords, score_coords, time_to_end, part, video, score_template_path):
     start_time = time.time()
     previous_board = np.zeros((20, 10))
-    images = []
     while True:
 
         if time.time() > start_time + time_to_end:
-            pd.DataFrame(data=images).to_csv(f"./boards/images_{video}_{part}.csv", index=False, header=False)
             break
 
         with mss.mss() as sct:
@@ -138,8 +136,8 @@ def main(board_coords, score_coords, time_to_end, part, video, score_template_pa
 
         image_array, path = convert_screen(board_array, part, video)
         if not np.array_equal(board_array, previous_board):
+            cv2.imwrite(path, image_array)
             previous_board = board_array
-            images.append(board_array.flatten())
 
 
 
@@ -181,7 +179,7 @@ if __name__ == '__main__':
     #                                                                     "/html/body/ytd-app/ytd-consent-bump-v2-lightbox/tp-yt-paper-dialog/div[4]/div[2]/div[6]/div[1]/ytd-button-renderer[2]/yt-button-shape/button"))).click()
     #         accepted_cookies = True
     #
-    #     input()
+    #     input("Press enter when video is ready")
     #
     #     with mss.mss() as sct:
     #         leftboard = tuple(video['board_coords'][0])
@@ -212,10 +210,10 @@ if __name__ == '__main__':
     #     whole_img = np.concatenate([score_img, board_img], axis=0)
     #
     #     cv2.imshow("screen", whole_img)
-    #     cv2.waitKey(0)
-    #     cv2.destroyAllWindows()
+    #     cv2.waitKey(5000)
+    #     cv2.destroyWindow("screen")
     #
-    #     input_str = input()
+    #     input_str = input("All good?")
     #     if input_str == 'y':
     #         continue
     #     else:
@@ -237,8 +235,8 @@ if __name__ == '__main__':
         video = videos[i]
         if video['done']:
             continue
-        # Path(f"./boards/video{i}/left").mkdir(parents=True, exist_ok=True)
-        # Path(f"./boards/video{i}/right").mkdir(parents=True, exist_ok=True)
+        Path(f"./boards/video{i}/left").mkdir(parents=True, exist_ok=True)
+        Path(f"./boards/video{i}/right").mkdir(parents=True, exist_ok=True)
 
         driver.get(video['url'])
         driver.add_cookie({"name": "wide", "value": "1"})
@@ -264,15 +262,20 @@ if __name__ == '__main__':
             keyboard.press("k")
             keyboard.release("k")
 
-        # driver.execute_script("document.getElementById('movie_player').setPlaybackRate(2)")
+        driver.execute_script("document.getElementById('movie_player').setPlaybackRate(2)")
 
         with ProcessPoolExecutor(2) as executor:
             futures = []
-            left = executor.submit(main, video['board_coords'][0], video['score_coords'][0], video['duration'], 'left', i, video['score_template'])
-            right = executor.submit(main, video['board_coords'][1], video['score_coords'][1], video['duration'], 'right', i, video['score_template'])
+            left = executor.submit(main, video['board_coords'][0], video['score_coords'][0], video['duration']/2, 'left', i, video['score_template'])
+            right = executor.submit(main, video['board_coords'][1], video['score_coords'][1], video['duration']/2, 'right', i, video['score_template'])
 
             # print('Waiting for tasks to complete...')
             wait(futures, return_when=ALL_COMPLETED)
+
+        video['done'] = True
+        json_object = json.dumps(videos, indent=4)
+        with open(file_name, "w") as outfile:
+            outfile.write(json_object)
 
     driver.quit()
     quit()
