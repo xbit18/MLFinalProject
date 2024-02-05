@@ -6,3 +6,5 @@ screens/*
 datasets/*
 boards/*
 videos_windows.json
+processed_images/
+datasets/

@@ -1,12 +1,12 @@
 from abc import ABC, abstractmethod
 
-
 class Tetromino(ABC):
 
     @abstractmethod
     def __init__(self):
         self.type: str
-        self.coords: dict
+        self.data: dict
+        self.square_position: tuple
 
 
 class T_Tetromino(Tetromino):
@@ -30,13 +30,15 @@ class T_Tetromino(Tetromino):
                 'empty': [[3, 0], [2, 1]]
             }
         }
+        self.square_position = 5, 17
+
 
 class L_Tetromino(Tetromino):
     def __init__(self):
         self.type = 'L'
         self.data = {
             '1': {
-                'coords': [[0, 0], [0, 1], [0, 2], [1,0]],
+                'coords': [[0, 0], [0, 1], [0, 2], [1, 0]],
                 'empty': [[2, 0], [1, 1], [1, 2]]
             },
             '2': {
@@ -52,6 +54,8 @@ class L_Tetromino(Tetromino):
                 'empty': [[3, 0], [3, 1]]
             }
         }
+        self.square_position = 10, 0
+
 
 class I_Tetromino(Tetromino):
     def __init__(self):
@@ -74,13 +78,15 @@ class I_Tetromino(Tetromino):
                 'empty': [[4, 0]]
             }
         }
+        self.square_position = 0, 0
+
 
 class S_Tetromino(Tetromino):
     def __init__(self):
         self.type = 'S'
         self.data = {
             '1': {
-                'coords': [[0, 1], [0, 2], [1, 0], [1,1]],
+                'coords': [[0, 1], [0, 2], [1, 0], [1, 1]],
                 'empty': [[2, 0], [2, 1], [1, 2]]
             },
             '2': {
@@ -88,7 +94,7 @@ class S_Tetromino(Tetromino):
                 'empty': [[2, 0], [3, 1]]
             },
             '3': {
-                'coords': [[0, 1], [0, 2], [1, 0], [1,1]],
+                'coords': [[0, 1], [0, 2], [1, 0], [1, 1]],
                 'empty': [[2, 0], [2, 1], [1, 2]]
             },
             '4': {
@@ -96,13 +102,15 @@ class S_Tetromino(Tetromino):
                 'empty': [[2, 0], [3, 1]]
             }
         }
+        self.square_position = 0, 17
+
 
 class Z_Tetromino(Tetromino):
     def __init__(self):
         self.type = 'Z'
         self.data = {
             '1': {
-                'coords': [[0, 0], [0, 1], [1, 1], [1,2]],
+                'coords': [[0, 0], [0, 1], [1, 1], [1, 2]],
                 'empty': [[1, 0], [2, 1], [2, 2]]
             },
             '2': {
@@ -110,7 +118,7 @@ class Z_Tetromino(Tetromino):
                 'empty': [[3, 0], [2, 1]]
             },
             '3': {
-                'coords': [[0, 0], [0, 1], [1, 1], [1,2]],
+                'coords': [[0, 0], [0, 1], [1, 1], [1, 2]],
                 'empty': [[1, 0], [2, 1], [2, 2]]
             },
             '4': {
@@ -118,6 +126,8 @@ class Z_Tetromino(Tetromino):
                 'empty': [[3, 0], [2, 1]]
             }
         }
+        self.square_position = 10, 17
+
 
 class J_Tetromino(Tetromino):
     def __init__(self):
@@ -132,7 +142,7 @@ class J_Tetromino(Tetromino):
                 'empty': [[3, 0], [3, 1]]
             },
             '3': {
-                'coords': [[0, 0], [1, 0], [1, 1], [1,2]],
+                'coords': [[0, 0], [1, 0], [1, 1], [1, 2]],
                 'empty': [[2, 0], [2, 1], [2, 2]]
             },
             '4': {
@@ -140,6 +150,8 @@ class J_Tetromino(Tetromino):
                 'empty': [[3, 0], [1, 1]]
             }
         }
+        self.square_position = 5, 0
+
 
 class O_Tetromino(Tetromino):
     def __init__(self):
@@ -162,3 +174,4 @@ class O_Tetromino(Tetromino):
                 'empty': [[2, 0], [2, 1]]
             }
         }
+        self.square_position = 15, 1
