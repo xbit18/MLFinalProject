@@ -332,9 +332,9 @@ if __name__ == '__main__':
 
     board_to_save = None
 
-    with open("dataset.csv", "a") as csv_file:
+    with open("datasets/dataset.csv", "a") as csv_file:
         writer = csv.writer(csv_file, delimiter=',')
-        writer.writerow(["path", "rotation", "col"])
+        writer.writerow(["path", "rotation", "row", "col"])
 
     for i in range(16):
         os.system("clear")
@@ -443,9 +443,9 @@ if __name__ == '__main__':
                     img_to_save = get_image_from_board(first_piece_board)
                     path = f"processed_images/{file}"
                     rotation = final_piece[1]
-                   # row = final_piece[2][0]
+                    row = final_piece[2][0]
                     col = final_piece[2][1]
-                    line = path, rotation, col
+                    line = path, rotation, row, col
 
                     with open("datasets/dataset.csv", "a") as csv_file:
                         writer = csv.writer(csv_file, delimiter=',')
