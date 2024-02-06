@@ -1,3 +1,5 @@
+import platform
+
 import numpy as np
 import os
 import cv2
@@ -79,7 +81,10 @@ def check_tetromino(board_array):
 
 
 def clear():
-    os.system("clear")
+    if platform.system() == "Darwin":
+        os.system("clear")
+    else:
+        os.system("cls")
 
 
 def cast_to_255(x):
@@ -272,7 +277,6 @@ if __name__ == '__main__':
         piece = check_tetromino(board)
         if piece is None:
             continue
-
         board_no_piece = remove_piece(piece, board)
 
         counter = row - 4
@@ -316,16 +320,18 @@ if __name__ == '__main__':
         # print(len(boards))
         # print(len(sorted_boards))
         for idx, board_to_save in enumerate(sorted_boards):
+            try:
+                # Save square image
+                new_path = str(path[:-4]) + "_" + str(idx) + ".png"
+                new_path = new_path.replace("processed_images", "processed_images_squared")
+                cv2.imwrite(new_path, get_image_from_board(get_squared_image(board_to_save)))
 
-            # Save square image
-            new_path = str(path[:-4]) + "_" + str(idx) + ".png"
-            new_path = new_path.replace("processed_images", "processed_images_squared")
-            cv2.imwrite(new_path, get_image_from_board(get_squared_image(board_to_save)))
-
-            # Save row in new "dataset_squared.csv"
-            line = [new_path, rotation, row, col]
-            with open("datasets/dataset_squared.csv", "a") as csv_file:
-                writer = csv.writer(csv_file, delimiter=',')
-                writer.writerow(line)
+                # Save row in new "dataset_squared.csv"
+                line = [new_path, rotation, row, col]
+                with open("datasets/dataset_squared.csv", "a") as csv_file:
+                    writer = csv.writer(csv_file, delimiter=',')
+                    writer.writerow(line)
+            except TypeError:
+                continue
 
     cv2.destroyAllWindows()

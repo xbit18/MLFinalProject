@@ -134,7 +134,7 @@ class J_Tetromino(Tetromino):
         self.type = 'J'
         self.data = {
             '1': {
-                'coords': [[0, 0], [0, 1], [0, 2]],
+                'coords': [[0, 0], [0, 1], [0, 2], [1, 2]],
                 'empty': [[1, 0], [1, 1], [2, 2]]
             },
             '2': {
