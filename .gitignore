@@ -8,3 +8,8 @@ boards/*
 videos_windows.json
 processed_images/
 datasets/
+*.zip
+processed_images_squared/
+processed_images_to_del/
+boards_to_del/
+*.csv
